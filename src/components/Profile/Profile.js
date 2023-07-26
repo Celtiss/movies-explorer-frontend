@@ -57,6 +57,7 @@ function Profile({user, isEdit, onEditProfile, onUpdateUser}) {
                             <p className="profile__form-title">E-mail</p>
                             <input name='email' className="profile__form-input" placeholder='pochta@yandex.ru' value={formValue.email || ''} onChange={handleChange} type="email"></input>
                         </div>
+                        <span className='profile__error'>При обновлении профиля произошла ошибка.</span>
                         <button className="profile__save-btn" onSubmit={handleSubmitUser}>Сохранить</button>
                     </form> 
                 </div>

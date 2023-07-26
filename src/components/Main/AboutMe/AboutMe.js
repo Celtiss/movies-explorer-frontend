@@ -1,6 +1,6 @@
 import {NavLink} from 'react-router-dom';
 import Portfolio from '../Portfolio/Portfolio';
-import student from '../../../images/student.jpeg';
+import student from '../../../images/main-img.png';
 
 function AboutMe() {
     return (
@@ -8,8 +8,8 @@ function AboutMe() {
             <h1 className="section__title">Студент</h1>
             <div className="student__container">
                 <div className='student__about'>
-                    <h2 className="student__name">Елена</h2>
-                    <p className="student__job">Фронтенд-разработчик, 22 года</p>
+                    <h2 className="student__name">Виталий</h2>
+                    <p className="student__job">Фронтенд-разработчик, 30 лет</p>
                     <p className="student__text">Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена и дочь. 
                     Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». 
                     После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.</p>
