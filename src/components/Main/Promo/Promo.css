@@ -1,0 +1,81 @@
+.promo {
+    position: relative;
+    width: 100%;
+    min-height: 560px;
+    background-color: #DDDEE3;
+}
+
+.promo__title {
+    margin: 0;
+    padding: 0;
+    max-width: 626px;
+    min-width: 300px;
+    width: 100%;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: normal;
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: -1.9px;
+    color: #000;
+    margin: 50px 70px 0;
+}
+
+.promo__image {
+    background-image: url('../../../images/landing-logo.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 722px;
+    height: 244px;
+    text-align: end;
+    position: absolute;
+    bottom: 60px;
+    right: 70px;
+}
+
+@media screen and (max-width:845px) {
+    .promo {
+        min-height: 844px;
+        overflow: hidden;
+    }
+
+    .promo__title {
+        max-width: 680px;
+        margin: 300px auto;
+        text-align: center;
+    }
+
+    .promo__image {
+        width: 680px;
+        height: 230px;
+        bottom: 70px;
+        right: 45px;
+    }
+}
+
+@media screen and (max-width:740px) {
+    .promo__title {
+        max-width: 400px;
+        text-align: center;
+        margin: 300px auto;
+    }
+}
+
+@media screen and (max-width:500px) {
+    .promo {
+        min-height: 630px;
+    }
+    .promo__title {
+        font-size: 31px;
+        line-height: 39px;
+        max-width: 400px;
+        text-align: center;
+        margin: 183px auto;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+    .promo__image {
+        bottom: 40px;
+        right: -180px;
+    }
+}

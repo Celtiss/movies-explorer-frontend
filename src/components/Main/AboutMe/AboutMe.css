@@ -1,0 +1,143 @@
+.student {
+    padding-top: 110px;
+    padding-bottom: 125px;
+    width: 100%;
+    min-height: 625px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.student__container {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 20px;
+    margin: 66px 0 100px;
+}
+
+.student__about {
+    max-width: 600px;
+    min-width: 292px;
+    width: 100%;
+}
+
+.student__name {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: normal;
+    font-size: 50px;
+    color: #000;
+}
+
+.student__job {
+    margin: 20px 0 0;
+    padding: 0;
+    width: 100%;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: medium;
+    font-size: 18px;
+    color: #000;
+}
+
+.student__text {
+    margin: 28px 0 99px;
+    padding: 0;
+    min-width: 292px;
+    width: 100%;
+    font-family: 'Inter', Arial, sans-serif;
+    letter-spacing: -0.04px;
+    line-height: 21px;
+    font-weight: normal;
+    font-size: 14px;
+    color: #000;
+}
+
+.student__img {
+    width: 270px;
+    height: 327px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.student__link {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: medium;
+    font-size: 14px;
+    color: #000;
+}
+
+@media screen and (max-width:768px) {
+    .student {
+        padding-top: 70px;
+        padding-bottom: 90px;
+    }
+    .student__container {
+        margin: 66px 0 88px;
+    }
+    .student__about {
+        max-width: 364px;
+    }
+    .student__name {
+        font-size: 40px;
+    }
+    .student__job {
+        margin: 11px 0 0;
+        font-size: 12px;
+    }
+    .student__text {
+        margin: 28px 0 90px;
+        letter-spacing: -0.04px;
+        line-height: 17px;
+        font-size: 12px;
+    }
+    .student__img {
+        width: 255px;
+        height: 307px;
+        object-fit: cover;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .student__container {
+        flex-direction: column-reverse;
+    }
+}
+
+@media screen and (max-width:480px) {
+    .student {
+        padding-top: 70px;
+        padding-bottom: 53px;
+    }
+
+    .student__container {
+        margin: 60px 0 73px;
+    }
+
+    .student__name {
+        font-size: 30px;
+        margin: 40px 0 0;
+    }
+
+    .student__job {
+        margin: 23px 0 0;
+        font-size: 11px;
+    }
+
+    .student__text {
+        margin: 20px 0 40px;
+        line-height: 16px;
+        font-size: 11px;
+    }
+
+    .student__img {
+        width: 292px;
+        height: 352px;
+        object-fit: cover;
+    }
+}

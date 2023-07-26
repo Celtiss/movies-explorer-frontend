@@ -1,0 +1,97 @@
+.card {
+    width: 270px;
+    min-height: 151px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.card__description {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 11px 0 0;
+    padding: 0 0 25px;
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.card__title {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    color: #000;
+}
+
+.card__img {
+    background-image: url('../../images/film-1.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 270px;
+    height: 151px;
+}
+
+.card__btn {
+    background-position: center;
+    background-size: cover;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.card__like-btn {
+    background-image: url('../../images/like-icon.svg');
+}
+
+.card__like-btn_active {
+    background-image: url('../../images/like-icon-active.svg');
+}
+
+.card__delete-btn {
+    opacity: 0;
+    transition: opacity .2s;
+    background-image: url('../../images/delete-icon.svg');
+}
+
+.card:hover .card__delete-btn {
+    opacity: 1;
+}
+
+.card__film-duration {
+    margin: 6px 0 0;
+    padding: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    color: #A0A0A0;
+}
+
+@media screen and (max-width:768px) {
+    .card__img {
+        width: 339px;
+        height: 190px;
+    }
+}
+
+@media screen and (max-width:480px) {
+    .card {
+        width: 300px;
+        width: 100%;
+    }
+
+    .card__img {
+        width: 300px;
+        height: 168px;
+    }
+
+    .card__title {
+        font-family: 'Inter', Arial, sans-serif;
+        font-weight: 500;
+        font-size: 12px;
+        color: #000;
+    }
+}
