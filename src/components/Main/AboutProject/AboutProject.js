@@ -16,11 +16,11 @@ function AboutProject() {
                 <div className="about__items">
                     <div className="about__item about__item_type_back">
                         <p className="about__item-text about__item-text_color_blue">1 неделя</p>
-                        <p className="about__bar-heading">Back-end</p>
+                        <p className="about__item-heading">Back-end</p>
                     </div>
                     <div className=" about__item about__item_type_front">
                         <p className="about__item-text about__item-text_color_white">4 недели</p>
-                        <p className="about__bar-heading">Front-end</p>
+                        <p className="about__item-heading">Front-end</p>
                     </div>
                 </div>
             </div>

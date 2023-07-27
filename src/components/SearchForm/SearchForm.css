@@ -51,10 +51,6 @@
         padding: 70px 30px 10px;
     }
 
-    .search__form {
-        padding: 10px 10px 10px 23px;
-    }
-
     .search__btn {
         width: 108px;
     }
@@ -65,9 +61,9 @@
         padding: 70px 14px 10px;
     }
 
-    .search__form {
-        padding: 6px 6px 6px 9px;
+    .search__container {
         height: 56px;
+        padding: 5px 6px 10px 9px;
     }
 
     .search__input {

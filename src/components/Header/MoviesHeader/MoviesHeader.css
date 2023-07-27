@@ -191,4 +191,11 @@
         margin-right: 10px;
         /* height: 44px; */
     }
+
+    .header__link_type_login {
+        width: 54px;
+        height: 26px;
+        padding: 5px 12px;
+        margin-left: 14px;
+    }
 }

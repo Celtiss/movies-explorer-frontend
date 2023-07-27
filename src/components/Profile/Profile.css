@@ -122,6 +122,10 @@
     transition: opacity .2s;
 }
 
+.profile__save-btn_unactive {
+    background-color: #F8F8F8;
+}
+
 .profile__save-btn:hover {
     opacity: .7;
 }
@@ -173,8 +177,8 @@
     display: block;
 }
 
-.prodile__signout-btn:hover {
-    opacity: .7;
+.profile__signout-btn:hover {
+    opacity: .6;
 }
 
 @media screen and (max-width:768px) {
