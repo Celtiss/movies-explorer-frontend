@@ -10,7 +10,7 @@ function MoviesCardList({movies}) {
             <ul className='movies-list__container'>
             {movies.map((movie) => (<MoviesCard key={movie._id} movie = {movie} />))}
             </ul>
-            {!isSavedMoviesRoute && (<button className='movies-list__btn-more'>Еще</button>)}
+            {!isSavedMoviesRoute && (<button type='button' className='movies-list__btn-more'>Еще</button>)}
         </section>
     );
 }

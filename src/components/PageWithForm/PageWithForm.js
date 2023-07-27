@@ -7,7 +7,7 @@ function PageWithForm(props){
     return (
         <div className="account">
             <NavLink to="/" className="account__logo"></NavLink>
-            <h1 className="account__title">{props.data.title}</h1>
+            <h2 className="account__title">{props.data.title}</h2>
             <form className='account__form'>
                 {props.children}
                 {isSignUpRoute && (<span className="account__form-error account__form-error_type_signup">Что-то пошло не так...</span>)}

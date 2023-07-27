@@ -26,8 +26,8 @@ function Profile({user, isEdit, onEditProfile, onUpdateUser}) {
     }
 
     return (
-        <section className="profile">
-            <h1 className="profile__title">Привет, Виталий!</h1>
+        <main className="profile">
+            <h2 className="profile__title">Привет, Виталий!</h2>
             { !isEdit && 
                 <div className="profile__main"> 
                     <div className="profile__info">
@@ -41,7 +41,7 @@ function Profile({user, isEdit, onEditProfile, onUpdateUser}) {
                         </div>
                     </div> 
                     <nav className="profile__menu-container">
-                        <button className="profile__edit-btn" onClick={handleEdit}>Редактировать</button>
+                        <button type='button' className="profile__edit-btn" onClick={handleEdit}>Редактировать</button>
                         <NavLink to="/" className="profile__signout-btn">Выйти из аккаунта</NavLink>
                     </nav> 
                 </div>
@@ -51,18 +51,18 @@ function Profile({user, isEdit, onEditProfile, onUpdateUser}) {
                     <form className="profile__form">
                         <div className="profile__form-item">
                             <p className="profile__form-title">Имя</p>
-                            <input name="name" className="profile__form-input" placeholder='Виталий' value={formValue.name || ''} onChange={handleChange} type="text"></input>
+                            <input name="name" className="profile__form-input" placeholder='Виталий' value={formValue.name || ''} onChange={handleChange} type="text" minLength="2" maxLength="30"></input>
                         </div>
                         <div className="profile__form-item">
                             <p className="profile__form-title">E-mail</p>
-                            <input name='email' className="profile__form-input" placeholder='pochta@yandex.ru' value={formValue.email || ''} onChange={handleChange} type="email"></input>
+                            <input name='email' className="profile__form-input" placeholder='pochta@yandex.ru' value={formValue.email || ''} onChange={handleChange} type="email" minLength="2" maxLength="30"></input>
                         </div>
                         <span className='profile__error'>При обновлении профиля произошла ошибка.</span>
-                        <button className="profile__save-btn" onSubmit={handleSubmitUser}>Сохранить</button>
+                        <button type='submit' className="profile__save-btn" onSubmit={handleSubmitUser}>Сохранить</button>
                     </form> 
                 </div>
             }
-        </section>
+        </main>
     );
   }
   

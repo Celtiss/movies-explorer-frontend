@@ -26,9 +26,7 @@
 }
 
 .card__img {
-    background-image: url('../../images/film-1.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+    object-fit: cover;
     width: 270px;
     height: 151px;
 }
@@ -41,6 +39,11 @@
     width: 24px;
     height: 24px;
     cursor: pointer;
+    transition: opacity .2s;
+}
+
+.card__btn:hover {
+    opacity: .7;
 }
 
 .card__like-btn {

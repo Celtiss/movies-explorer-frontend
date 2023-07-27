@@ -28,6 +28,11 @@
     font-size: 30px;
     color: #000;
     letter-spacing: -1.4px;
+    transition: opacity .2s;
+}
+
+.portfolio__item:hover {
+    opacity: .7;
 }
 
 .portfolio__item:last-child {

@@ -99,7 +99,12 @@
     border: none;
     text-align: right;
     background-color: rgba(0, 0, 0, 0);
-    outline: none;
+}
+
+.profile__form-input:focus {
+    outline: solid 2px #3456F3;
+    border-radius: 2px;
+    outline-offset: 5px ;
 }
 
 .profile__save-btn {

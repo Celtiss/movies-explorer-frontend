@@ -5,10 +5,12 @@ function SearchForm() {
     return(
         <section className='section search'>
             <form className='search__form'>
-                <input type="text" placeholder='Фильм' className='search__input'></input>
-                <button type="button" className='search__btn'>Поиск</button>
+                <div className='search__container'>
+                    <input type="text" placeholder='Фильм' className='search__input' required minLength="2" maxLength="40" ></input>
+                    <button type="submit" className='search__btn'>Поиск</button>
+                </div>
+                <FilterCheckbox />
             </form>
-            <FilterCheckbox />
         </section>
     );
 }
