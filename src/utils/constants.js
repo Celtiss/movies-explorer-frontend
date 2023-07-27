@@ -39,7 +39,7 @@ const movies = [
         name: 'Киноальманах «100 лет дизайна»',
         url: '../../images/film-2.png',
         duration: 102,
-        owner: false
+        owner: true
     },
     {
         _id: 7,

@@ -52,23 +52,21 @@ function App() {
 }
 
   return (
-    <div className='page'>
-        <div className='page__content'>
-            <Header onBurgerMenu={handleBurgerMenuClick} />
-            <Routes>
-              <Route path='/' element={<Main />} />
-              <Route path='/movies' element={<Movies movies={movies} />} />
-              <Route path='/saved-movies' element={<SavedMovies savedMovies={savedMovies} />} />
-              <Route path='/profile' element={<Profile user={currentUser} isEdit={isEditProfile} onEditProfile={handleEditProfile} onUpdateUser={handleUpdateUser} />} />
-              <Route path='/signup' element={<Register />} />
-              <Route path='/signin' element={<Login />} />
-              <Route path='*' element={<NotFoundPage />} />
-            </Routes>
-            {(isMainRoute || isMoviesRoute || isSavedMoviesRoute) && <Footer />}
-            <PopupWithMenu isOpen={isMenuPopupOpen} onClose={handleBurgerMenuClose} />
-            {/* <Preloader /> */}
-        </div>
-    </div>
+      <div className='page'>
+          <Header onBurgerMenu={handleBurgerMenuClick} />
+          <Routes>
+            <Route path='/' element={<Main />} />
+            <Route path='/movies' element={<Movies movies={movies} />} />
+            <Route path='/saved-movies' element={<SavedMovies savedMovies={savedMovies} />} />
+            <Route path='/profile' element={<Profile user={currentUser} isEdit={isEditProfile} onEditProfile={handleEditProfile} onUpdateUser={handleUpdateUser} />} />
+            <Route path='/signup' element={<Register />} />
+            <Route path='/signin' element={<Login />} />
+            <Route path='*' element={<NotFoundPage />} />
+          </Routes>
+          {(isMainRoute || isMoviesRoute || isSavedMoviesRoute) && <Footer />}
+          <PopupWithMenu isOpen={isMenuPopupOpen} onClose={handleBurgerMenuClose} />
+          {/* <Preloader /> */}
+      </div>
   );
 }
 

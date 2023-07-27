@@ -1,8 +1,9 @@
-.page {
+/* .page {
   background-color: #FAFAFA;
-}
+  margin: 0 auto;
+} */
 
-.page__content {
+.page {
   max-width: 1280px;
   min-width: 320px;
   min-height: 100vh;
@@ -21,12 +22,4 @@
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  max-width: 1280px;
-  min-width: 282px;
-  width: 100%;
 }

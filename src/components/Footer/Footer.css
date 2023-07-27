@@ -45,8 +45,11 @@
     column-gap: 20px;
 }
 
-.footer__link {
+.footer__item {
     list-style: none;
+}
+
+.footer__link {
     text-decoration: none;
     color: #000;
     font-family: 'Inter', Arial, sans-serif;

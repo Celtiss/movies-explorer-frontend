@@ -1,4 +1,4 @@
-.menu {
+.menu-section {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,12 +11,12 @@
     justify-content: right;
 }
 
-.menu_open {
+.menu-section_open {
     visibility: visible;
     opacity: 1;
 }
 
-.menu__container {
+.menu {
     width: 520px;
     background-color: #fff;
     display: flex;
@@ -42,7 +42,7 @@
     background-color: rgba(0, 0, 0, 0);
 }
 
-.menu__navigation {
+.menu__nav {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -77,11 +77,11 @@
         right: 13px;
     }
 
-    .menu__container {
+    .menu {
         padding: 146px 0 64px;
     }
 
-    .menu__navigation {
+    .menu__nav {
         row-gap: 16px;
     }
 }

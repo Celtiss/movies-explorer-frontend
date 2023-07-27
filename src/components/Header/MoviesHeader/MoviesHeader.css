@@ -9,6 +9,22 @@
     cursor: pointer;
 }
 
+.user-account {
+    text-decoration: none;
+    color: #000;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 400;
+    transition: opacity .2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 17px;
+}
+
+.user-account:hover {
+    opacity: .7;
+}
+
 .header__link {
     font-family: 'Inter', Arial, sans-serif;
     font-weight: 400;
@@ -63,7 +79,7 @@
     column-gap: 18px;
 }
 
-.header__profile-icon {
+.user-account-icon {
     background-image: url('../../../images/account-icon.svg');
     background-color: #F4F4F4;
     background-repeat: no-repeat;
@@ -107,13 +123,6 @@
     border-radius: 3px;
 }
 
-.header__link_type_profile {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    column-gap: 17px;
-}
-
 .header__link_type_movies {
     font-size: 13px;
     line-height: 18px;
@@ -125,7 +134,7 @@
     letter-spacing: -0.1;
 }
 
-.header__profile-text {
+.user-account__text {
     margin: 0;
     padding: 0;
     font-size: 14px;
@@ -163,6 +172,11 @@
     }
 
     .header__link {
+        font-size: 10px;
+        line-height: 16px;
+    }
+
+    .user-account {
         font-size: 10px;
         line-height: 16px;
     }
