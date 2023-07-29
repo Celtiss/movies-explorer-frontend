@@ -40,6 +40,12 @@
     height: 32px;
     border: none;
     background-color: rgba(0, 0, 0, 0);
+    transition: opacity .2s;
+    cursor: pointer;
+}
+
+.menu__close:hover {
+    opacity: .7;
 }
 
 .menu__nav {

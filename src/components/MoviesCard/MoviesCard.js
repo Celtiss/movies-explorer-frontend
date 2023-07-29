@@ -9,7 +9,7 @@ function MoviesCard({movie}) {
     const minutes = movie.duration % 60;
     return(
         <li className='card'>
-            <img alt='фильм' src={cardImg} className='card__img'></img>
+            <img alt={movie.name} src={cardImg} className='card__img'></img>
             <div className='card__description'>
                 <h2 className='card__title'>{movie.name}</h2>
                 {!isSavedMoviesRoute && (<button type="button" aria-label="Лайк" className={`card__btn card__like-btn ${movie.owner===true && 'card__like-btn_active'}`}></button>)}

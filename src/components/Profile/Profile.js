@@ -27,7 +27,7 @@ function Profile({user, isEdit, onEditProfile, onUpdateUser}) {
 
     return (
         <main className="profile">
-            <h2 className="profile__title">Привет, Виталий!</h2>
+            <h1 className="profile__title">Привет, Виталий!</h1>
             { !isEdit && 
                 <div className="profile__main"> 
                     <div className="profile__info">

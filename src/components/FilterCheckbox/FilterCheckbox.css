@@ -12,6 +12,11 @@
     display: inline-block;
     width: 36px;
     height: 20px;
+    transition: opacity .2s;
+}
+
+.search__checkbox:hover {
+  opacity: .7;
 }
 
 .search__checkbox-input {

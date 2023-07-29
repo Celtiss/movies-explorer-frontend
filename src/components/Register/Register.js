@@ -7,11 +7,11 @@ function Register(){
     return (
         <main className="register">
             <PageWithForm data={data}>
-                <label className="account__form-label" htmlffor="name-input">Имя</label>
+                <label className="account__form-label" htmlFor="name-input">Имя</label>
                 <input name="accountName" placeholder="" type="text" id='name-input' className="account__input" minLength="2" maxLength="30" required />
-                <label className="account__form-label" htmlffor="email-input">E-mail</label>
+                <label className="account__form-label" htmlFor="email-input">E-mail</label>
                 <input name="accountEmail" placeholder="" type="email" id='email-input' className="account__input" required />
-                <label className="account__form-label" htmlffor="password-input">Пароль</label>
+                <label className="account__form-label" htmlFor="password-input">Пароль</label>
                 <input name="accountPassword" placeholder="" type="password" id='password-input' className="account__input" minLength="2" maxLength="30" required />
             </PageWithForm>
         </main>

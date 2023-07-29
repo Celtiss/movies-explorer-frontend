@@ -94,6 +94,7 @@
     align-self: flex-end;
     margin-top: auto;
     transition: opacity .2s;
+    cursor: pointer;
 }
 
 .account__form-btn:hover {
