@@ -1,15 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-function SearchForm() {
+function SearchForm(props) {
+    function handleSubmitSearch(e) {
+        e.preventDefault();
+        props.handleSubmit();
+    }
     return(
         <section className='section search'>
-            <form className='search__form'>
-                <div className='search__container'>
-                    <input type="text" placeholder='Фильм' className='search__input' required minLength="2" maxLength="40" ></input>
-                    <button type="submit" className='search__btn'>Поиск</button>
-                </div>
-                <FilterCheckbox />
+            <form className='search__form' onSubmit={handleSubmitSearch}>
+                {props.children}
+                <FilterCheckbox searchCheckbox={props.searchCheckbox} handleSearchCheckbox={props.handleSearchCheckbox} />
             </form>
         </section>
     );
