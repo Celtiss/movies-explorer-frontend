@@ -8,7 +8,7 @@ function MoviesCard({movie, handleClickMovie, handleDeleteCard}) {
     const hour = Math.floor(movie.duration / 60);
     const minutes = movie.duration % 60;
     const cardLikeButtonClassName = ( 
-        `card__btn card__like-btn ${movie.isLiked && 'card__like-btn_active'}` 
+        `card__btn card__like-btn ${movie.isLiked ? 'card__like-btn_active' : ''}` 
       );
     function handleLikeMovie(){
         handleClickMovie(movie);
