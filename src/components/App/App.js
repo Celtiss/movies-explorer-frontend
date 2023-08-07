@@ -39,6 +39,7 @@ function App() {
   const [renderedSavedMovies, setRenderedSavedMovies] = useState([]);
   const [searchMainCheckbox, setSearchMainCheckbox] = useState(false);
   const [searchSavedMoviesCheckbox, setSearchSavedMoviesCheckbox] = useState(false);
+  const [savedMoviesKeywords, setSavedMoviesKeywords] = useState('');
 
 
   //Получаем данные пользователя и фильмы с сервера получаем только один раз в самом начале
@@ -46,9 +47,9 @@ function App() {
     if(loggedIn===true) {
         Promise.all([mainApi.getSavedMovies(), mainApi.getUserInfo()])
         .then(([savedMovies, userData]) => {
-            setIsSavedMovies(true);
             setCurrentUser(userData);
             setSavedMovies(savedMovies);
+            setIsSavedMovies(true);
         })
         .catch((err) => { //попадаем сюда если один из промисов завершаться ошибкой
             console.log(err);
@@ -119,8 +120,9 @@ function App() {
   useEffect(() => {
     const localcheckbox = JSON.parse(localStorage.getItem('checkbox')) || false;
     setSearchMainCheckbox(localcheckbox);
-    findMoviesByKeywords();
-  }, []);
+    console.log(savedMovies);
+    isSavedMovies && findMoviesByKeywords();
+  }, [isSavedMovies]);
 
   // Динамичный чекбокс главной страницы
   useEffect(() => {
@@ -191,7 +193,6 @@ function App() {
 
   // При поиске по ключевым словам в savedMovies устанавливаем им свойство isLiked: true
   useEffect(() => {
-    console.log(filteredSavedMovies);
     const updatedMovies = filteredSavedMovies.map((movie) => {
       return {
         ...movie,
@@ -201,25 +202,23 @@ function App() {
     setRenderedSavedMovies(updatedMovies);
   }, [filteredSavedMovies]);
 
-  // Динамичный чекбокс главной страницы
+  // Динамичный чекбокс страницы с сохраненными фильмами
   useEffect(() => {
-    findSavedMoviesByKeywords();
+    handleSearchSavedFilm('');
   }, [searchSavedMoviesCheckbox]);
 
-  // Установить текущее значение чекбокса в стейт и в localStorage
+  // Установить текущее значение чекбокса в стейт
   function handleSearchSavedCheckbox(checkboxValue) {
     setSearchSavedMoviesCheckbox(checkboxValue);
   }
 
   // Установить ключевые слова в локальное хранилищеы
   function handleSearchSavedFilm(keywords) {
-    localStorage.setItem('SavedMoviesKeywords', keywords);
-    findSavedMoviesByKeywords();
+    findSavedMoviesByKeywords(keywords);
   }
 
   // Поиск фильмов по ключевым словам
-  function findSavedMoviesByKeywords() {
-    const keywords = localStorage.getItem('SavedMoviesKeywords');
+  function findSavedMoviesByKeywords(keywords) {
     const foundMovies = savedMovies.filter((movie) => {
       const nameRULowerCase = movie.nameRU.toLowerCase();
       const nameENLowerCase = movie.nameEN.toLowerCase();
@@ -240,6 +239,51 @@ function App() {
     }
   }
 
+  // -----------------------------------------------------------------------------------------------------
+
+  function handleClickMovie(movie) {
+    // Лайкнут ли фильм?
+    const isLiked = movie.isLiked;
+    if (isLiked === false) {
+      mainApi.saveMovie(movie)
+      .then((newMovie) => {
+        const updatedMovies = renderedMovies.map((movie) => {
+          return movie.id === newMovie.movieId ? { ...movie, isLiked: true, _id: newMovie._id } : movie
+        });
+        console.log(updatedMovies);
+        setRenderedMovies(updatedMovies);
+        setSavedMovies([...savedMovies, newMovie]);
+      })
+    } else if (isLiked === true) {
+      mainApi.deleteMovie(movie._id)
+      .then(() => {
+        const updatedMovies = renderedMovies.map((rendMovie) => {
+          return rendMovie.id === movie.id ? { ...rendMovie, isLiked: false } : rendMovie;
+        }
+        );
+        setRenderedMovies(updatedMovies);
+        setSavedMovies(savedMovies.filter((savedMovie) => savedMovie._id !== movie._id));
+      })
+      .catch((err) => console.log(err));
+    }
+  }
+
+  function handleDeleteMovie(movie) {
+    const isLiked = movie.isLiked;
+    if (isLiked === true) {
+      mainApi.deleteMovie(movie._id)
+      .then(() => {
+        const updatedMovies = renderedMovies.map((rendMovie) => {
+          return rendMovie.id === movie.movieId ? { ...rendMovie, isLiked: false } : rendMovie;
+        }
+        );
+        setRenderedMovies(updatedMovies);
+        setSavedMovies(savedMovies.filter((savedMovie) => savedMovie._id !== movie._id));
+      })
+      .catch((err) => console.log(err));
+    }
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='page'>
@@ -257,6 +301,7 @@ function App() {
             handleSearchMainFilm={handleSearchMainFilm}
             handleSearchMainCheckbox={handleSearchMainCheckbox}
             searchMainCheckbox={searchMainCheckbox}
+            handleClickMovie={handleClickMovie}
              />} />
             
             <Route path='/saved-movies' element=
@@ -266,6 +311,7 @@ function App() {
             movies={renderedSavedMovies}
             handleSearchSavedFilm={handleSearchSavedFilm}
             handleSearchSavedCheckbox={handleSearchSavedCheckbox}
+            handleDeleteMovie={handleDeleteMovie}
             />} />
             
             <Route path='/profile' element={<ProtectedRoute element={Profile} loggedIn={loggedIn} 

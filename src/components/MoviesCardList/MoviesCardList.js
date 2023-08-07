@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList({ movies }) {
+function MoviesCardList({ movies , handleClickMovie, handleDeleteMovie}) {
   const location = useLocation();
   const isSavedMoviesRoute = location.pathname === '/saved-movies';
 
@@ -39,7 +39,7 @@ function MoviesCardList({ movies }) {
     <section className='section movies-list'>
       <ul className='movies-list__container'>
         {visibleMovies.map((movie) => (
-          <MoviesCard key={movie.id ? movie.id : movie.movieId} movie={movie} />
+          <MoviesCard key={movie.id ? movie.id : movie.movieId} movie={movie} handleClickMovie={handleClickMovie} handleDeleteMovie={handleDeleteMovie} />
         ))}
       </ul>
       {!isSavedMoviesRoute && visibleMovies.length < movies.length && (

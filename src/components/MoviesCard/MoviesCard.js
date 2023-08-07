@@ -2,7 +2,7 @@ import React from 'react';
 import {useLocation} from 'react-router-dom';
 import { currentUser } from '../../contexts/CurrentUserContext';
 
-function MoviesCard({movie, handleClickMovie, handleDeleteCard}) {
+function MoviesCard({movie, handleClickMovie, handleDeleteMovie}) {
     const location = useLocation();
     const isSavedMoviesRoute = location.pathname === '/saved-movies';
     const hour = Math.floor(movie.duration / 60);
@@ -13,9 +13,8 @@ function MoviesCard({movie, handleClickMovie, handleDeleteCard}) {
     function handleLikeMovie(){
         handleClickMovie(movie);
     }
-    function handleDeleteMovie(){
-        handleDeleteCard(movie);
-        console.log(movie);
+    function handleDeleteCard(){
+        handleDeleteMovie(movie);
     }
     return(
         <li className='card'>
@@ -23,7 +22,7 @@ function MoviesCard({movie, handleClickMovie, handleDeleteCard}) {
             <div className='card__description'>
                 <h2 className='card__title'>{movie.nameRU}</h2>
                 {!isSavedMoviesRoute && (<button type="button" onClick={handleLikeMovie} aria-label="Сохранить" className={cardLikeButtonClassName}></button>)}
-                {isSavedMoviesRoute && (<button type="button" onClick={handleDeleteMovie} aria-label="Удалить" className={`card__btn card__delete-btn`}></button>)}
+                {isSavedMoviesRoute && (<button type="button" onClick={handleDeleteCard} aria-label="Удалить" className={`card__btn card__delete-btn`}></button>)}
             </div>
             <p className='card__film-duration'>{hour}ч{minutes}м</p>
         </li>

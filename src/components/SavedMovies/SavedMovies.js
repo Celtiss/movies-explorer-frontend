@@ -28,7 +28,7 @@ function SavedMovies(props) {
                     <button type="submit" className='search__btn'>Поиск</button>
                 </div> 
             </SearchForm>
-            <MoviesCardList movies={props.movies} handleDeleteCard={props.handleDeleteCard} />
+            <MoviesCardList movies={props.movies} handleDeleteMovie={props.handleDeleteMovie} />
         </main>
     );
 }

@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function Movies({loggedIn, movies, searchMainCheckbox, handleSearchMainFilm, handleSearchMainCheckbox}) {
-    const searchText = localStorage.getItem('keyWords');
+function Movies({loggedIn, movies, searchMainCheckbox, handleSearchMainFilm, handleSearchMainCheckbox, handleClickMovie}) {
+    const searchText = localStorage.getItem('keywords');
     const [formValue, setFormValue] = useState({
         search: searchText
     });
@@ -28,7 +28,7 @@ function Movies({loggedIn, movies, searchMainCheckbox, handleSearchMainFilm, han
                     <button type="submit" className='search__btn'>Поиск</button>
                 </div>
             </SearchForm>
-            <MoviesCardList movies={movies} />
+            <MoviesCardList movies={movies} handleClickMovie={handleClickMovie} />
         </main>
     );
 }
