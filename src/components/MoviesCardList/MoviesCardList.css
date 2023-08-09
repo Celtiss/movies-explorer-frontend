@@ -34,6 +34,16 @@
     opacity: .8;
 }
 
+.movies-list__err-message {
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: #f00;
+}
+
 @media screen and (max-width:768px) {
     .movies-list{
         padding: 78px 30px 86px;
@@ -46,6 +56,10 @@
         grid-template-columns: repeat(auto-fit, 339px);
         column-gap: 30px;
         row-gap: 30px;
+    }
+
+    .movies-list__err-message {
+        font-size: 12px;
     }
 }
 

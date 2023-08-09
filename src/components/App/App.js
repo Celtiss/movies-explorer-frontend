@@ -39,8 +39,11 @@ function App() {
   const [renderedSavedMovies, setRenderedSavedMovies] = useState([]);
   const [searchMainCheckbox, setSearchMainCheckbox] = useState(false);
   const [searchSavedMoviesCheckbox, setSearchSavedMoviesCheckbox] = useState(false);
-  const [savedMoviesKeywords, setSavedMoviesKeywords] = useState('');
+  const [isPreloader, setPreloader] = useState(false);
+  const [moviesApiErr, setMoviesApiErr] = useState('');
+  const [bestfilmErr, setBestfilmErr] = useState('');
 
+  const errorMessageApi = 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз';
 
   //Получаем данные пользователя и фильмы с сервера получаем только один раз в самом начале
   useEffect(() => {
@@ -52,14 +55,17 @@ function App() {
             setIsSavedMovies(true);
         })
         .catch((err) => { //попадаем сюда если один из промисов завершаться ошибкой
-            console.log(err);
+          console.log(err);
+          setMoviesApiErr(errorMessageApi);
         })
         // Если это не первичный вход пользователя, то не надо делать запрос за фильмами
         if(!localStorage.getItem('localMovies')){
+          setPreloader(true);
           moviesApi.getMovies()
           .then((allMovies) => {
             localStorage.setItem('localMovies', JSON.stringify(allMovies));
           })
+          .catch((err) => setBestfilmErr(errorMessageApi));
         }
     }
   }, [loggedIn]);
@@ -110,8 +116,12 @@ function App() {
 
   //Изменение профиля
   function handleUpdateUser(userData) {
-    setCurrentUser(userData);
-    setEditProfile(false);
+    mainApi.updateUserInfo(userData.name, userData.email)
+    .then((newUserInfo) => {
+      setCurrentUser(newUserInfo);
+      setEditProfile(false);
+    })
+    .catch((err) => console.log(err));
   }
 
   //----------------------------------------------------------------------------------------
@@ -120,7 +130,6 @@ function App() {
   useEffect(() => {
     const localcheckbox = JSON.parse(localStorage.getItem('checkbox')) || false;
     setSearchMainCheckbox(localcheckbox);
-    console.log(savedMovies);
     isSavedMovies && findMoviesByKeywords();
   }, [isSavedMovies]);
 
@@ -137,16 +146,16 @@ function App() {
 
   // Установить ключевые слова в локальное хранилищеы
   function handleSearchMainFilm(keywords) {
+    setPreloader(false);
     localStorage.setItem('keywords', keywords);
     findMoviesByKeywords();
   }
 
   // Поиск фильмов по ключевым словам
   function findMoviesByKeywords() {
-    const keywords = localStorage.getItem('keywords');
+    const keywords = localStorage.getItem('keywords') || '';
     const localMovies = JSON.parse(localStorage.getItem('localMovies')) || [];
     const localcheckbox = JSON.parse(localStorage.getItem('checkbox')) || false;
-    console.log(localcheckbox);
     const foundMovies = localMovies.filter((movie) => {
       const nameRULowerCase = movie.nameRU.toLowerCase();
       const nameENLowerCase = movie.nameEN.toLowerCase();
@@ -298,6 +307,8 @@ function App() {
             element={Movies} 
             loggedIn={loggedIn} 
             movies={renderedMovies}
+            isPreloader={isPreloader}
+            message ={bestfilmErr}
             handleSearchMainFilm={handleSearchMainFilm}
             handleSearchMainCheckbox={handleSearchMainCheckbox}
             searchMainCheckbox={searchMainCheckbox}
@@ -309,6 +320,7 @@ function App() {
             element={SavedMovies} 
             loggedIn={loggedIn} 
             movies={renderedSavedMovies}
+            message={moviesApiErr}
             handleSearchSavedFilm={handleSearchSavedFilm}
             handleSearchSavedCheckbox={handleSearchSavedCheckbox}
             handleDeleteMovie={handleDeleteMovie}

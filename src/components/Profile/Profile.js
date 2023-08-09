@@ -4,17 +4,20 @@ import { CurrentUserContext} from '../../contexts/CurrentUserContext.js';
 
 function Profile({isEdit, onEditProfile, onUpdateUser, handleLogin, handleUserLogOut}) {
     const currentUser = React.useContext(CurrentUserContext);
-    const [formValue, setFormValue] = useState({
-        name:'',
-        email: ''
-    });
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
 
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormValue({
-        ...formValue,
-        [name]: value
-        });
+    React.useEffect(() => {
+        setName(currentUser?.name ?? '');
+        setEmail(currentUser?.email ?? '');
+      }, [currentUser]); 
+
+    function handleNameChange(e) {
+        setName(e.target.value);
+    }
+
+    function handleEmailChange(e) {
+        setEmail(e.target.value);
     }
 
     function handleEdit() {
@@ -23,7 +26,10 @@ function Profile({isEdit, onEditProfile, onUpdateUser, handleLogin, handleUserLo
 
     function handleSubmitUser(e) {
         e.preventDefault();
-        onUpdateUser(formValue);
+        onUpdateUser({
+            name: name,
+            email: email,
+          });
     }
 
     function handleLogOut() {
@@ -54,17 +60,17 @@ function Profile({isEdit, onEditProfile, onUpdateUser, handleLogin, handleUserLo
             }
             { isEdit && 
                 <div className="profile__edit"> 
-                    <form className="profile__form">
+                    <form className="profile__form" onSubmit={handleSubmitUser}>
                         <div className="profile__form-item">
                             <p className="profile__form-title">Имя</p>
-                            <input name="name" className="profile__form-input" placeholder={currentUser.name} value={formValue.name || ''} onChange={handleChange} type="text" minLength="2" maxLength="30"></input>
+                            <input name="name" className="profile__form-input" placeholder={''} value={name || ''} onChange={handleNameChange} type="text" minLength="2" maxLength="30"></input>
                         </div>
                         <div className="profile__form-item">
                             <p className="profile__form-title">E-mail</p>
-                            <input name='email' className="profile__form-input" placeholder={currentUser.email} value={formValue.email || ''} onChange={handleChange} type="email" minLength="2" maxLength="30"></input>
+                            <input name='email' className="profile__form-input" placeholder={''} value={email || ''} onChange={handleEmailChange} type="email" minLength="2" maxLength="30"></input>
                         </div>
                         <span className='profile__error'>При обновлении профиля произошла ошибка.</span>
-                        <button type='submit' className="profile__save-btn" onSubmit={handleSubmitUser}>Сохранить</button>
+                        <button type='submit' className="profile__save-btn">Сохранить</button>
                     </form> 
                 </div>
             }

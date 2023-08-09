@@ -1,8 +1,10 @@
 import {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import PageWithForm from "../PageWithForm/PageWithForm";
 import * as auth from '../../auth.js';
 
-function Register(){
+function Register({handleLogin}){
+    const navigate = useNavigate();
     const [formValue, setFormValue] = useState({
         email:'',
         password: '',
@@ -22,6 +24,7 @@ function Register(){
         const { email, password, name } = formValue;
         auth.register(email, password, name).then((res) => {
             setFormValue({email: '', password: '', name: ''});
+            navigate ('/signin', {replace:true});
         })
         .catch((err) => {
             console.log(err);

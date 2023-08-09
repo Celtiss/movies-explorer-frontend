@@ -13,6 +13,7 @@ class MainApi {
         }
     }
 
+    // Получить данные о пользователе
     getUserInfo () {
         return fetch(`${this._url}/users/me`, {
             method: 'GET',
@@ -22,6 +23,7 @@ class MainApi {
         .then(this._getResFromServer());
     }
 
+    // Получить сохраненные фильмы пользователя
     getSavedMovies() {
         return fetch(`${this._url}/movies`, {
             method: 'GET',
@@ -31,19 +33,20 @@ class MainApi {
         .then(this._getResFromServer());
     }
 
-    // updateUserInfo(name, job) {
-    //     return fetch(`${this._url}/users/me`, {
-    //         method: 'PATCH',
-    //         headers: this._headers,
-    //         credentials: "include",
-    //         body: JSON.stringify({
-    //             name: `${name}`,
-    //             about: `${job}`
-    //         })
-    //     })
-    //     .then(this._getResFromServer());
-    // }
+    updateUserInfo(name, email) {
+        return fetch(`${this._url}/users/me`, {
+            method: 'PATCH',
+            headers: this._headers,
+            credentials: "include",
+            body: JSON.stringify({
+                email: `${email}`,
+                name: `${name}`
+            })
+        })
+        .then(this._getResFromServer());
+    }
 
+    // Сохранить фильм
     saveMovie(data) {
         return fetch(`${this._url}/movies`, {
             method: 'POST',
@@ -67,6 +70,7 @@ class MainApi {
         .then(this._getResFromServer());
     }
 
+    // Удалить фильм
     deleteMovie(_id) {
         return fetch(`${this._url}/movies/${_id}`, {
             method: 'DELETE',
@@ -75,24 +79,7 @@ class MainApi {
         })
         .then(this._getResFromServer());
     }
-    
-    // setCardLikes(id) {
-    //     return fetch(`${this._url}/cards/${id}/likes`, {
-    //         method: 'PUT',
-    //         headers: this._headers,
-    //         credentials: "include",
-    //     })
-    //     .then(this._getResFromServer());
-    // }
 
-    // deleteCardLike(id) {
-    //     return fetch(`${this._url}/cards/${id}/likes`, {
-    //         method: 'DELETE',
-    //         headers: this._headers,
-    //         credentials: "include",
-    //     })
-    //     .then(this._getResFromServer());
-    // }
 }
 
 const mainApi = new MainApi ({
