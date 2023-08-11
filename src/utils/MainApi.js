@@ -83,10 +83,9 @@ class MainApi {
 }
 
 const mainApi = new MainApi ({
-    url: 'http://localhost:3000',
+    url: 'https://api.movies-tmr.nomoredomains.xyz',
     headers: {
         'content-type': 'application/json',
-        //authorization: '88b8691a-7ac8-4b43-af84-6572693f6425'
     },
     credentials: "include",
 });

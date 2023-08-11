@@ -10,7 +10,6 @@ import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PopupWithMenu from '../PopupWithMenu/PopupWithMenu';
-import Preloader from '../Preloader/Preloader';
 import moviesApi from '../../utils/MoviesApi';
 import mainApi from '../../utils/MainApi';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext.js';
@@ -70,7 +69,6 @@ function App() {
     }
   }, [loggedIn]);
 
-  //----------------------------------------------------------------------------------------
   useEffect(() => {
     checkToken();
   },[])
@@ -124,18 +122,18 @@ function App() {
     .catch((err) => console.log(err));
   }
 
-  //----------------------------------------------------------------------------------------
+  //------------------------------------------ПОИСК И ЧЕКБОКС НА СТРАНИЦЕ СО ВСЕМИ ФИЛЬМАМИ----------------------------------------------
 
   // Рендер найденных карточек при перезагрузке страницы
   useEffect(() => {
     const localcheckbox = JSON.parse(localStorage.getItem('checkbox')) || false;
     setSearchMainCheckbox(localcheckbox);
-    isSavedMovies && findMoviesByKeywords();
+    isSavedMovies && findMovies();
   }, [isSavedMovies]);
 
   // Динамичный чекбокс главной страницы
   useEffect(() => {
-    findMoviesByKeywords();
+    findMovies();
   }, [searchMainCheckbox]);
 
   // Установить текущее значение чекбокса в стейт и в localStorage
@@ -148,15 +146,12 @@ function App() {
   function handleSearchMainFilm(keywords) {
     setPreloader(false);
     localStorage.setItem('keywords', keywords);
-    findMoviesByKeywords();
+    findMovies();
   }
 
   // Поиск фильмов по ключевым словам
-  function findMoviesByKeywords() {
-    const keywords = localStorage.getItem('keywords') || '';
-    const localMovies = JSON.parse(localStorage.getItem('localMovies')) || [];
-    const localcheckbox = JSON.parse(localStorage.getItem('checkbox')) || false;
-    const foundMovies = localMovies.filter((movie) => {
+  function findMoviesByKeywords(movies, keywords) {
+    return movies.filter((movie) => {
       const nameRULowerCase = movie.nameRU.toLowerCase();
       const nameENLowerCase = movie.nameEN.toLowerCase();
       const searchWords = keywords.split(' ');
@@ -165,6 +160,14 @@ function App() {
         return nameENLowerCase.includes(lowerKeyWord) || nameRULowerCase.includes(lowerKeyWord);
       })
     });
+  }
+
+  // Поиск фильмов
+  function findMovies() {
+    const keywords = localStorage.getItem('keywords') || '';
+    const localMovies = JSON.parse(localStorage.getItem('localMovies')) || [];
+    const localcheckbox = JSON.parse(localStorage.getItem('checkbox')) || false;
+    const foundMovies = findMoviesByKeywords (localMovies, keywords);
     if(localcheckbox === true) {
       let checkedMovies = [];
       checkedMovies = foundMovies.filter((m) => {
@@ -187,7 +190,7 @@ function App() {
     setRenderedMovies(updatedMovies);
   }
 
-  // ------------------------------------------------------------------------------------------------
+  // -----------------------------------ПОИСК И ЧЕКБОКС В СОХРАНЕННЫХ ФИЛЬМАХ-------------------------------------------------------------
   // Отоброжаем сохраненные фильмы
   useEffect(() => {
     const updateMovies = savedMovies.map((movie) => {
@@ -213,7 +216,8 @@ function App() {
 
   // Динамичный чекбокс страницы с сохраненными фильмами
   useEffect(() => {
-    handleSearchSavedFilm('');
+    const keywords = localStorage.getItem('savedKeywords') || '';
+    handleSearchSavedFilm(keywords);
   }, [searchSavedMoviesCheckbox]);
 
   // Установить текущее значение чекбокса в стейт
@@ -223,20 +227,13 @@ function App() {
 
   // Установить ключевые слова в локальное хранилищеы
   function handleSearchSavedFilm(keywords) {
-    findSavedMoviesByKeywords(keywords);
+    localStorage.setItem('savedKeywords', keywords);
+    findSavedMovies(keywords);
   }
 
-  // Поиск фильмов по ключевым словам
-  function findSavedMoviesByKeywords(keywords) {
-    const foundMovies = savedMovies.filter((movie) => {
-      const nameRULowerCase = movie.nameRU.toLowerCase();
-      const nameENLowerCase = movie.nameEN.toLowerCase();
-      const searchWords = keywords.split(' ');
-      return searchWords.some((word) => {
-        const lowerKeyWord = word.toLowerCase();
-        return nameENLowerCase.includes(lowerKeyWord) || nameRULowerCase.includes(lowerKeyWord);
-      })
-    });
+  // Поиск фильмов на странице с сохраненными фильмами
+  function findSavedMovies(keywords) {
+    const foundMovies = findMoviesByKeywords(savedMovies, keywords);
     if(searchSavedMoviesCheckbox === true) {
       let checkedMovies = [];
       checkedMovies = foundMovies.filter((m) => {
@@ -250,6 +247,7 @@ function App() {
 
   // -----------------------------------------------------------------------------------------------------
 
+  // Добавить фильм в избранное или удалить
   function handleClickMovie(movie) {
     // Лайкнут ли фильм?
     const isLiked = movie.isLiked;
@@ -259,37 +257,21 @@ function App() {
         const updatedMovies = renderedMovies.map((movie) => {
           return movie.id === newMovie.movieId ? { ...movie, isLiked: true, _id: newMovie._id } : movie
         });
-        console.log(updatedMovies);
         setRenderedMovies(updatedMovies);
         setSavedMovies([...savedMovies, newMovie]);
       })
     } else if (isLiked === true) {
       mainApi.deleteMovie(movie._id)
-      .then(() => {
-        const updatedMovies = renderedMovies.map((rendMovie) => {
-          return rendMovie.id === movie.id ? { ...rendMovie, isLiked: false } : rendMovie;
-        }
-        );
-        setRenderedMovies(updatedMovies);
-        setSavedMovies(savedMovies.filter((savedMovie) => savedMovie._id !== movie._id));
-      })
-      .catch((err) => console.log(err));
-    }
-  }
-
-  function handleDeleteMovie(movie) {
-    const isLiked = movie.isLiked;
-    if (isLiked === true) {
-      mainApi.deleteMovie(movie._id)
-      .then(() => {
-        const updatedMovies = renderedMovies.map((rendMovie) => {
-          return rendMovie.id === movie.movieId ? { ...rendMovie, isLiked: false } : rendMovie;
-        }
-        );
-        setRenderedMovies(updatedMovies);
-        setSavedMovies(savedMovies.filter((savedMovie) => savedMovie._id !== movie._id));
-      })
-      .catch((err) => console.log(err));
+    .then(() => {
+      const updatedMovies = renderedMovies.map((rendMovie) => {
+        if(movie.movieId) {return rendMovie.id === movie.movieId ? { ...rendMovie, isLiked: false } : rendMovie;}
+        else if (movie.id) {return rendMovie.id === movie.id ? { ...rendMovie, isLiked: false } : rendMovie;}
+      }
+      );
+      setRenderedMovies(updatedMovies);
+      setSavedMovies(savedMovies.filter((savedMovie) => savedMovie._id !== movie._id));
+    })
+    .catch((err) => console.log(err));;
     }
   }
 
@@ -323,7 +305,7 @@ function App() {
             message={moviesApiErr}
             handleSearchSavedFilm={handleSearchSavedFilm}
             handleSearchSavedCheckbox={handleSearchSavedCheckbox}
-            handleDeleteMovie={handleDeleteMovie}
+            handleClickMovie={handleClickMovie}
             />} />
             
             <Route path='/profile' element={<ProtectedRoute element={Profile} loggedIn={loggedIn} 
