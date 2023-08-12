@@ -41,6 +41,7 @@ function App() {
   const [isPreloader, setPreloader] = useState(false);
   const [moviesApiErr, setMoviesApiErr] = useState('');
   const [bestfilmErr, setBestfilmErr] = useState('');
+  const [profileRes, setProfileRes] = useState('');
 
   const errorMessageApi = 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз';
 
@@ -76,12 +77,12 @@ function App() {
   // Проверка токена при заходе на страницу
   function checkToken (){
     auth.checkToken().then((data) => {
-        if(data){
-            setLoggedIn(true);
-            navigate("/movies", {replace:true});
-        }
+      if(data){
+          setLoggedIn(true);
+          navigate("/movies", {replace:true});
+      }
     }).catch((err) => {
-        console.log(err);
+      console.log(err);
     });
   }
 
@@ -119,7 +120,10 @@ function App() {
       setCurrentUser(newUserInfo);
       setEditProfile(false);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      setProfileRes(err);
+      console.log(err);
+    });
   }
 
   //------------------------------------------ПОИСК И ЧЕКБОКС НА СТРАНИЦЕ СО ВСЕМИ ФИЛЬМАМИ----------------------------------------------
@@ -310,6 +314,7 @@ function App() {
             
             <Route path='/profile' element={<ProtectedRoute element={Profile} loggedIn={loggedIn} 
             isEdit={isEditProfile} 
+            profileRes={profileRes}
             onEditProfile={handleEditProfile} 
             onUpdateUser={handleUpdateUser} 
             handleLogin={handleLogin} 

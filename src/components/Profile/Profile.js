@@ -1,35 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {useForm} from 'react-hook-form';
 import {NavLink} from 'react-router-dom';
 import { CurrentUserContext} from '../../contexts/CurrentUserContext.js';
 
-function Profile({isEdit, onEditProfile, onUpdateUser, handleLogin, handleUserLogOut}) {
+function Profile({isEdit, profileRes, onEditProfile, onUpdateUser, handleLogin, handleUserLogOut}) {
     const currentUser = React.useContext(CurrentUserContext);
+    const [serverRes, setServerRes] = useState(null);
+    const {
+        register,
+        formState: {
+            errors,
+            isValid
+        },
+        handleSubmit,
+    } = useForm({
+        mode: "onChange"
+    }
+    );
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-
-    React.useEffect(() => {
-        setName(currentUser?.name ?? '');
-        setEmail(currentUser?.email ?? '');
-      }, [currentUser]); 
-
-    function handleNameChange(e) {
-        setName(e.target.value);
-    }
-
-    function handleEmailChange(e) {
-        setEmail(e.target.value);
-    }
-
+    const [formValid, setFormValid] = useState(false);
+    const buttonClassName = `profile__save-btn ${formValid ? 'profile__save-btn_active' : ''} `;
+    
     function handleEdit() {
         onEditProfile();
     }
 
-    function handleSubmitUser(e) {
-        e.preventDefault();
+    useEffect(() => {
+        profileRes === 409 && setServerRes('Пользоваетль с таким email уже сущестсвует');
+        profileRes === 500 && setServerRes('Ошибка сервера');
+    }, [profileRes])
+
+    // Если поля ввода валидны и отличаются от начальных значений, то сделать кнопку активной
+    useEffect(() => {
+        if((((name !== currentUser.name) && name !=='') || ((email !== currentUser.email) && email!=='')) && isValid) {
+            setFormValid(true);
+        } else {
+            setFormValid(false);
+        }
+    }, [name, email, isValid, currentUser])
+
+    function handleSubmitUser(data) {
         onUpdateUser({
-            name: name,
-            email: email,
+            name: data.name || currentUser.name,
+            email: data.email || currentUser.email,
           });
+          console.log(profileRes === 409)
+          
     }
 
     function handleLogOut() {
@@ -60,17 +77,47 @@ function Profile({isEdit, onEditProfile, onUpdateUser, handleLogin, handleUserLo
             }
             { isEdit && 
                 <div className="profile__edit"> 
-                    <form className="profile__form" onSubmit={handleSubmitUser}>
+                    <form className="profile__form" onSubmit={handleSubmit(handleSubmitUser)}>
                         <div className="profile__form-item">
                             <p className="profile__form-title">Имя</p>
-                            <input name="name" className="profile__form-input" placeholder={''} value={name || ''} onChange={handleNameChange} type="text" minLength="2" maxLength="30"></input>
+                            <input 
+                            name="name" 
+                            className="profile__form-input" 
+                            placeholder={currentUser.name} 
+                            type="text" 
+                            minLength="2" 
+                            maxLength="30"
+                            {...register(`name`, {
+                                minLength: {
+                                    value: 2,
+                                    message: 'Name должен быть минимум 2 символа'
+                                },
+                                onChange: (e) => setName(e.target.value),
+                            })} />
                         </div>
                         <div className="profile__form-item">
                             <p className="profile__form-title">E-mail</p>
-                            <input name='email' className="profile__form-input" placeholder={''} value={email || ''} onChange={handleEmailChange} type="email" minLength="2" maxLength="30"></input>
+                            <input 
+                            name='email' 
+                            className="profile__form-input" 
+                            placeholder={currentUser.email} 
+                            type="email" 
+                            minLength="2" 
+                            maxLength="30" 
+                            {...register(`email`, {
+                                minLength: {
+                                    value: 2,
+                                    message: 'Email должен быть инимум 2 символа'
+                                },
+                                pattern: {
+                                    value: /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/,
+                                    message: 'Введите корректный email'
+                                },
+                                onChange: (e) => setEmail(e.target.value),
+                            })}/>
                         </div>
-                        <span className='profile__error'>При обновлении профиля произошла ошибка.</span>
-                        <button type='submit' className="profile__save-btn">Сохранить</button>
+                        <span className='profile__error'>{(errors?.name && errors.name.message) || (errors?.email && errors.email.message) || serverRes}</span>
+                        <button type='submit' disabled={formValid ? false: true} className={buttonClassName}>Сохранить</button>
                     </form> 
                 </div>
             }

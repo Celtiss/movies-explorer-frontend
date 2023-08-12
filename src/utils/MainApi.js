@@ -9,7 +9,7 @@ class MainApi {
             if(res.ok) {
                 return res.json();
             }
-            return Promise.reject(`Ошибка: ${res.status}`);
+            return Promise.reject(res.status);
         }
     }
 
@@ -33,6 +33,7 @@ class MainApi {
         .then(this._getResFromServer());
     }
 
+    // Jбновить данные пользователя
     updateUserInfo(name, email) {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
@@ -84,6 +85,7 @@ class MainApi {
 
 const mainApi = new MainApi ({
     url: 'https://api.movies-tmr.nomoredomains.xyz',
+    // url: 'http://localhost:3000',
     headers: {
         'content-type': 'application/json',
     },

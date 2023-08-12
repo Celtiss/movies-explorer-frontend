@@ -29,12 +29,12 @@ function Register() {
         auth.register(email, password, name)
         .then((res) => {
             navigate ('/signin', {replace:true});
+            reset();
         })
         .catch((err) => {
             if (err === 409) {console.log(err); setFormError('Пользователь с данным email уже существует');}
             else if (err === 500) {setFormError('Ошибка сервера');}
         });
-        reset();
     }
 
     return (
