@@ -84,7 +84,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi ({
-    url: 'http://api.movies.tmr.nomoreparties.co',
+    url: 'https://api.movies.tmr.nomoreparties.co',
     // url: 'http://localhost:3000',
     headers: {
         'content-type': 'application/json',
