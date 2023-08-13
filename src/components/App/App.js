@@ -76,7 +76,8 @@ function App() {
 
   // Проверка токена при заходе на страницу
   function checkToken (){
-    auth.checkToken().then((data) => {
+    auth.checkToken()
+    .then((data) => {
       if(data){
           setLoggedIn(true);
           navigate("/movies", {replace:true});
