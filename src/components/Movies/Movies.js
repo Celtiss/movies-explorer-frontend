@@ -3,8 +3,9 @@ import SearchForm from '../SearchForm/SearchForm';
 import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function Movies({loggedIn, movies, isPreloader, message, searchMainCheckbox, handleSearchMainFilm, handleSearchMainCheckbox, handleClickMovie}) {
+function Movies({movies, message, searchMainCheckbox, handleSearchMainFilm, handleSearchMainCheckbox, handleClickMovie}) {
     const searchText = localStorage.getItem('keywords');
+    const [isPreloader, setPreloader] = useState(false);
     const [formValue, setFormValue] = useState({
         search: searchText
     });
@@ -17,7 +18,9 @@ function Movies({loggedIn, movies, isPreloader, message, searchMainCheckbox, han
         });
     }
     const handleSubmit = () => {
+        setPreloader(true);
         const { search } = formValue;
+        setTimeout(() => setPreloader(false), 1000);
         handleSearchMainFilm(search);
     }
 

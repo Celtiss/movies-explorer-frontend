@@ -15,6 +15,7 @@ import mainApi from '../../utils/MainApi';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext.js';
 import ProtectedRoute from "../ProtectedRoute";
 import * as auth from '../../auth.js';
+import { errorMessageApi } from '../../utils/constants';
 
 function App() {
   // Чтобы footer не отображался в этих роутах
@@ -38,12 +39,9 @@ function App() {
   const [renderedSavedMovies, setRenderedSavedMovies] = useState([]);
   const [searchMainCheckbox, setSearchMainCheckbox] = useState(false);
   const [searchSavedMoviesCheckbox, setSearchSavedMoviesCheckbox] = useState(false);
-  const [isPreloader, setPreloader] = useState(false);
   const [moviesApiErr, setMoviesApiErr] = useState('');
   const [bestfilmErr, setBestfilmErr] = useState('');
   const [profileRes, setProfileRes] = useState('');
-
-  const errorMessageApi = 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз';
 
   //Получаем данные пользователя и фильмы с сервера получаем только один раз в самом начале
   useEffect(() => {
@@ -60,7 +58,6 @@ function App() {
         })
         // Если это не первичный вход пользователя, то не надо делать запрос за фильмами
         if(!localStorage.getItem('localMovies')){
-          setPreloader(true);
           moviesApi.getMovies()
           .then((allMovies) => {
             localStorage.setItem('localMovies', JSON.stringify(allMovies));
@@ -71,19 +68,30 @@ function App() {
   }, [loggedIn]);
 
   useEffect(() => {
-    checkToken();
-  },[])
+    // Проверяем localStorage при загрузке компонента
+    const storedLoggedIn = localStorage.getItem('loggedIn');
+    if (storedLoggedIn === 'true') {
+      checkToken();
+    } else {
+      setLoggedIn(false);
+    }
+  }, []);
 
   // Проверка токена при заходе на страницу
   function checkToken (){
     auth.checkToken()
     .then((data) => {
-      if(data){
-          setLoggedIn(true);
-          navigate("/movies", {replace:true});
+      if (data) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+        localStorage.removeItem('loggedIn'); // Удаляем значение из localStorage
       }
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.log(err);
+      setLoggedIn(false);
+      localStorage.removeItem('loggedIn'); // Удаляем значение из localStorage
     });
   }
 
@@ -100,6 +108,7 @@ function App() {
   // Установка статуса авторизации пользователя
   function handleLogin(status){
     setLoggedIn(status);
+    localStorage.setItem('loggedIn', status);
   }
 
   function handleBurgerMenuClick() {
@@ -149,7 +158,6 @@ function App() {
 
   // Установить ключевые слова в локальное хранилищеы
   function handleSearchMainFilm(keywords) {
-    setPreloader(false);
     localStorage.setItem('keywords', keywords);
     findMovies();
   }
@@ -196,6 +204,7 @@ function App() {
   }
 
   // -----------------------------------ПОИСК И ЧЕКБОКС В СОХРАНЕННЫХ ФИЛЬМАХ-------------------------------------------------------------
+  
   // Отоброжаем сохраненные фильмы
   useEffect(() => {
     const updateMovies = savedMovies.map((movie) => {
@@ -286,15 +295,13 @@ function App() {
           <Header onBurgerMenu={handleBurgerMenuClick} />
           <Routes>
             <Route path='/' element={<Main />} />
-            <Route path='/signup' element={<Register />} />
+            <Route path='/signup' element={<Register handleLogin={handleLogin} />} />
             <Route path='/signin' element={<Login handleLogin={handleLogin} />} />
             
             <Route path='/movies' element=
             {<ProtectedRoute
             element={Movies} 
-            loggedIn={loggedIn} 
             movies={renderedMovies}
-            isPreloader={isPreloader}
             message ={bestfilmErr}
             handleSearchMainFilm={handleSearchMainFilm}
             handleSearchMainCheckbox={handleSearchMainCheckbox}
@@ -305,7 +312,6 @@ function App() {
             <Route path='/saved-movies' element=
             {<ProtectedRoute 
             element={SavedMovies} 
-            loggedIn={loggedIn} 
             movies={renderedSavedMovies}
             message={moviesApiErr}
             handleSearchSavedFilm={handleSearchSavedFilm}
@@ -313,7 +319,9 @@ function App() {
             handleClickMovie={handleClickMovie}
             />} />
             
-            <Route path='/profile' element={<ProtectedRoute element={Profile} loggedIn={loggedIn} 
+            <Route path='/profile' element={
+            <ProtectedRoute 
+            element={Profile} 
             isEdit={isEditProfile} 
             profileRes={profileRes}
             onEditProfile={handleEditProfile} 
@@ -325,7 +333,6 @@ function App() {
           </Routes>
           {(isMainRoute || isMoviesRoute || isSavedMoviesRoute) && <Footer />}
           <PopupWithMenu isOpen={isMenuPopupOpen} onClose={handleBurgerMenuClose} />
-          {/* <Preloader /> */}
       </div>
     </CurrentUserContext.Provider>
   ); 

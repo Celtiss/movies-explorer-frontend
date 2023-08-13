@@ -45,7 +45,6 @@ function Profile({isEdit, profileRes, onEditProfile, onUpdateUser, handleLogin, 
             name: data.name || currentUser.name,
             email: data.email || currentUser.email,
           });
-          console.log(profileRes === 409)
           
     }
 
@@ -56,7 +55,7 @@ function Profile({isEdit, profileRes, onEditProfile, onUpdateUser, handleLogin, 
 
     return (
         <main className="profile">
-            <h1 className="profile__title">Привет, Виталий!</h1>
+            <h1 className="profile__title">Привет, {currentUser.name}!</h1>
             { !isEdit && 
                 <div className="profile__main"> 
                     <div className="profile__info">
@@ -83,7 +82,8 @@ function Profile({isEdit, profileRes, onEditProfile, onUpdateUser, handleLogin, 
                             <input 
                             name="name" 
                             className="profile__form-input" 
-                            placeholder={currentUser.name} 
+                            placeholder='Имя'
+                            defaultValue={currentUser.name}
                             type="text" 
                             minLength="2" 
                             maxLength="30"
@@ -100,7 +100,8 @@ function Profile({isEdit, profileRes, onEditProfile, onUpdateUser, handleLogin, 
                             <input 
                             name='email' 
                             className="profile__form-input" 
-                            placeholder={currentUser.email} 
+                            placeholder='Email'
+                            defaultValue={currentUser.email}
                             type="email" 
                             minLength="2" 
                             maxLength="30" 

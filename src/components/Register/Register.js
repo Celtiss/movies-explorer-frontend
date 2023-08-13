@@ -3,13 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import {useForm} from 'react-hook-form';
 import PageWithForm from "../PageWithForm/PageWithForm";
 import * as auth from '../../auth.js';
+import { registerData } from '../../utils/constants';
 
-function Register() {
+function Register({handleLogin}) {
     const navigate = useNavigate();
-    const data = {
-        title: 'Добро пожаловать!',
-        button :'Зарегистрироваться'
-    }
     const [formError, setFormError] = useState('');
     const {
         register,
@@ -28,7 +25,16 @@ function Register() {
         const { email, password, name } = data;
         auth.register(email, password, name)
         .then((res) => {
-            navigate ('/signin', {replace:true});
+            auth.login(email, password)
+            .then((res) => {
+                if(res){
+                    handleLogin(true);
+                    navigate ('/movies', {replace:true});
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
             reset();
         })
         .catch((err) => {
@@ -39,7 +45,7 @@ function Register() {
 
     return (
         <main className="register">
-            <PageWithForm data={data} isValid={isValid} formError={formError} handleSubmitForm = {handleSubmit(handleSubmitForm)}>
+            <PageWithForm data={registerData} isValid={isValid} formError={formError} handleSubmitForm = {handleSubmit(handleSubmitForm)}>
                 <label className="account__form-label" htmlFor="name-input">Имя
                     <input 
                     name="name" 

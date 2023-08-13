@@ -65,6 +65,10 @@
     background-color: #FAFAFA;
 }
 
+.header_color_grey{
+    background-color: #DDDEE3;
+}
+
 .header__nav {
     max-width: 1058px;
     width: 100%;
@@ -81,7 +85,7 @@
 
 .user-account-icon {
     background-image: url('../../../images/account-icon.svg');
-    background-color: #F4F4F4;
+    background-color: rgba(0,0,0, 0);
     background-repeat: no-repeat;
     background-position: center;
     width: 26px;

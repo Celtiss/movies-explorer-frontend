@@ -1,8 +1,10 @@
-import {NavLink} from 'react-router-dom';
+import {NavLink, useLocation} from 'react-router-dom';
 
 function MoviesHeader({onBurgerMenu}) {
+    const location = useLocation();
+    const isMainRoute = location.pathname === '/';
     return (
-        <header className=" header header_type_movies"> 
+        <header className={`header header_type_movies ${isMainRoute && 'header_color_grey'}`}> 
             <NavLink to="/" className="header__logo"></NavLink>
             <nav className='header__nav'>
                 <div className="header__nav-movies">

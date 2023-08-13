@@ -3,14 +3,10 @@ import {useForm} from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import PageWithForm from "../PageWithForm/PageWithForm";
 import * as auth from '../../auth.js';
+import { loginData } from '../../utils/constants';
 
 function Login({handleLogin}){
     const navigate = useNavigate();
-    const data = {
-        title: 'Рады видеть!',
-        button :'Войти'
-    }
-
     const [formError, setFormError] = useState('');
     const {
         register,
@@ -42,7 +38,7 @@ function Login({handleLogin}){
 
     return (
         <main className="login">
-            <PageWithForm data={data} isValid={isValid} formError={formError} handleSubmitForm = {handleSubmit(handleSubmitForm)}>
+            <PageWithForm data={loginData} isValid={isValid} formError={formError} handleSubmitForm = {handleSubmit(handleSubmitForm)}>
                 <label className="account__form-label" htmlFor="email-input">E-mail
                     <input 
                     name="email" 
