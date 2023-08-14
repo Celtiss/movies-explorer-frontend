@@ -3,7 +3,7 @@ import {useForm} from 'react-hook-form';
 import {NavLink} from 'react-router-dom';
 import { CurrentUserContext} from '../../contexts/CurrentUserContext.js';
 
-function Profile({isEdit, profileRes, onEditProfile, onUpdateUser, handleLogin, handleUserLogOut}) {
+function Profile({isEdit, isUpdate, handleUpdateMessage, profileRes, onEditProfile, onUpdateUser, handleLogin, handleUserLogOut}) {
     const currentUser = React.useContext(CurrentUserContext);
     const [serverRes, setServerRes] = useState(null);
     const {
@@ -25,6 +25,10 @@ function Profile({isEdit, profileRes, onEditProfile, onUpdateUser, handleLogin, 
     function handleEdit() {
         onEditProfile();
     }
+
+    useEffect(() => {
+        handleUpdateMessage();
+    }, [])
 
     useEffect(() => {
         profileRes === 409 && setServerRes('Пользоваетль с таким email уже сущестсвует');
@@ -68,6 +72,7 @@ function Profile({isEdit, profileRes, onEditProfile, onUpdateUser, handleLogin, 
                             <p className="profile__field">{currentUser.email}</p>
                         </div>
                     </div> 
+                    {isUpdate && <span className='profile__success-message profile__success-message_active'>Данные успешно обновлены</span>}
                     <nav className="profile__menu-container">
                         <button type='button' className="profile__edit-btn" onClick={handleEdit}>Редактировать</button>
                         <NavLink to="/" className="profile__signout-btn" onClick={handleLogOut}>Выйти из аккаунта</NavLink>

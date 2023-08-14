@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
@@ -6,6 +6,12 @@ function SavedMovies(props) {
     const [formValue, setFormValue] = useState({
         search: ''
     });
+
+    useEffect(() => {
+        localStorage.removeItem('savedKeywords');
+        props.handleSearchSavedCheckbox(false);
+        props.handleSearchSavedFilm('');
+    }, []);
 
     const handleChange = (e) => {
         const {name, value} = e.target;

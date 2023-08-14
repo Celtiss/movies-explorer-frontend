@@ -31,6 +31,7 @@ function App() {
   // Состояния
   const [currentUser, setCurrentUser] = useState({_id: '', email: '', name: ''});
   const [isEditProfile, setEditProfile] = useState(false);
+  const [updateUserMessage, setUpdateUserMessage] = useState(false);
   const [isMenuPopupOpen, setMenuPopupState] = useState(false);
   const [isSavedMovies, setIsSavedMovies] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
@@ -119,6 +120,10 @@ function App() {
     isMenuPopupOpen && setMenuPopupState(false);
   }
 
+  function handleUpdateMessage() {
+    setUpdateUserMessage(false);
+  }
+
   function handleEditProfile () {
     setEditProfile(true);
   }
@@ -128,6 +133,7 @@ function App() {
     mainApi.updateUserInfo(userData.name, userData.email)
     .then((newUserInfo) => {
       setCurrentUser(newUserInfo);
+      setUpdateUserMessage(true);
       setEditProfile(false);
     })
     .catch((err) => {
@@ -323,6 +329,8 @@ function App() {
             <ProtectedRoute 
             element={Profile} 
             isEdit={isEditProfile} 
+            handleUpdateMessage={handleUpdateMessage}
+            isUpdate={updateUserMessage}
             profileRes={profileRes}
             onEditProfile={handleEditProfile} 
             onUpdateUser={handleUpdateUser} 
