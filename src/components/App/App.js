@@ -96,6 +96,7 @@ function App() {
     });
   }
 
+  // Функция выхода из аккаунта
   function handleUserLogOut() {
     auth.logOut().then(() => {
       navigate ('/', {replace:true});
@@ -112,6 +113,7 @@ function App() {
     localStorage.setItem('loggedIn', status);
   }
 
+  // Бургер меню
   function handleBurgerMenuClick() {
     setMenuPopupState(true);
   }
